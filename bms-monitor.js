@@ -14,5 +14,49 @@ function batteryIsOk(temperature, soc, charge_rate) {
     return true;
 }
 
-expect(batteryIsOk(25, 70, 0.7)).to.be.true;
+function batteryIsOk(temperature, soc, charge_rate) {
+    checkTemp(temperature);
+    checkSOC(soc);
+    checkChargeRate(charge_rate);
+}
+
+
+function checkTemp(temp){
+  var tempFlag = temp < 0 || temp > 45 ? false : true;
+  if(!tempFlag){
+  	messageBuilder('Temperature');
+  }
+  return tempFlag;
+}
+
+function checkSOC(soc){
+  var tempSoc = soc < 20 || soc > 80 ? false : true;
+   if(!tempSoc){
+  	messageBuilder('State of Charge');
+  }
+  return tempSoc;
+}
+
+function checkChargeRate(chargeRate){
+  var tempCharge = chargeRate > 0.8 ? false : true;
+   if(!tempCharge){
+  	messageBuilder('Charge rate');
+  }
+  return tempCharge;
+}
+
+function messageBuilder(customMsg){
+  console.log( customMsg + "is out of range!");
+}
+
+// expect(batteryIsOk(55, 90, 0.9)).to.be.true;
 expect(batteryIsOk(50, 85, 0)).to.be.false;
+
+expect(checkTemp(24)).to.be.true;
+expect(checkSOC(69)).to.be.true;
+expect(checkChargeRate(0.8)).to.be.true;
+
+expect(checkTemp(49)).to.be.false;
+expect(checkSOC(86)).to.be.false;
+expect(checkChargeRate(1)).to.be.false;
+
